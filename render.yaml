@@ -1,0 +1,22 @@
+services:
+  - type: web
+    name: sistema-citas-medicas
+    env: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: python main.py
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.9.16
+      - key: DB_HOST
+        value: maglev.proxy.rlwy.net
+      - key: DB_PORT
+        value: 42337
+      - key: DB_USER
+        value: root
+      - key: DB_PASSWORD
+        value: IyiknVQqDZqjGGVpGAsgGLWkseIPZozY
+      - key: DB_DATABASE
+        value: railway
+      - key: PORT
+        value: 8000

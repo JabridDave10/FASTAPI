@@ -1,5 +1,5 @@
-import mysql.connector
-from mysql.connector import Error
+import pymysql
+from pymysql import Error
 from typing import Optional
 import os
 
@@ -15,7 +15,7 @@ DB_CONFIG = {
 def get_connection():
     """Obtiene una conexión a la base de datos"""
     try:
-        connection = mysql.connector.connect(**DB_CONFIG)
+        connection = pymysql.connect(**DB_CONFIG)
         return connection
     except Error as e:
         print(f"Error conectando a MySQL: {e}")
@@ -73,7 +73,7 @@ def initialize_database():
     del config_without_db['database']
     
     try:
-        connection = mysql.connector.connect(**config_without_db)
+        connection = pymysql.connect(**config_without_db)
         cursor = connection.cursor()
         cursor.execute(f"CREATE DATABASE IF NOT EXISTS {DB_CONFIG['database']}")
         cursor.close()
