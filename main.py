@@ -5,11 +5,23 @@ from datetime import date, datetime
 import crud
 from models import *
 
-# Crear aplicación FastAPI
+# Evento de inicio para inicializar la base de datos
+from contextlib import asynccontextmanager
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Startup
+    from database import initialize_database
+    initialize_database()
+    yield
+    # Shutdown (si es necesario)
+
+# Crear aplicación FastAPI con lifespan
 app = FastAPI(
     title="Sistema de Citas Médicas",
     description="API REST para gestión de citas médicas, pacientes, doctores y especialidades",
-    version="1.0.0"
+    version="1.0.0",
+    lifespan=lifespan
 )
 
 # Configurar CORS
@@ -305,4 +317,7 @@ async def root():
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="127.0.0.1", port=8000)
+    import os
+    
+    port = int(os.getenv("PORT", 8000))
+    uvicorn.run(app, host="0.0.0.0", port=port)
